@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 Anos Juntos ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        .heart {
+            display: inline-block;
+            color: #ff6b9d;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .photos-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .photo-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 1;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .photo-card.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ff6b9d, #c471f5);
+            font-size: 1.2em;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 1em;
+            z-index: 3;
+            display: flex;
+            gap: 8px;
+        }
+
+        .photo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-dot.active {
+            background: #ff6b9d;
+            transform: scale(1.3);
+        }
+
+        .photo-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            font-size: 1.5em;
+        }
+
+        .photo-nav:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .photo-nav.prev {
+            left: -60px;
+        }
+
+        .photo-nav.next {
+            right: -60px;
+        }
+
+        .click-hint {
+            text-align: center;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
+        .quotes {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.3), 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            min-height: 400px;
+        }
+
+        .quotes::before {
+            content: '📌 Mural de Recados';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b9d, #c471f5);
+            padding: 8px 30px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-style: normal;
+        }
+
+        .quotes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            padding: 25px 20px;
+            border-radius: 3px;
+            font-style: normal;
+            font-size: 1em;
+            line-height: 1.6;
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #2c3e50;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 500;
+        }
+
+        .quote:nth-child(1) {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            transform: rotate(-3deg);
+        }
+
+        .quote:nth-child(2) {
+            background: linear-gradient(135deg, #fab1a0, #ff7675);
+            transform: rotate(2deg);
+        }
+
+        .quote:nth-child(3) {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            transform: rotate(-2deg);
+            color: #fff;
+        }
+
+        .quote:nth-child(4) {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            transform: rotate(3deg);
+            color: #fff;
+        }
+
+        .quote:nth-child(5) {
+            background: linear-gradient(135deg, #81ecec, #00b894);
+            transform: rotate(-1deg);
+        }
+
+        .quote:hover {
+            transform: rotate(0deg) scale(1.05) translateY(-5px);
+            z-index: 10;
+            box-shadow: 8px 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .quote::before {
+            content: '📌';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8em;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+        }
+
+        .quote::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-top: 20px solid rgba(0,0,0,0.1);
+        }
+
+        .timeline {
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b9d, #c471f5);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px 30px;
+            border-radius: 15px;
+            width: 45%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            margin-left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
+            text-align: left;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #ff6b9d;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b9d, #c471f5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .music-icon {
+            font-size: 1.5em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .photos-grid {
+                min-height: 400px;
+            }
+
+            .photo-carousel {
+                max-width: 100%;
+            }
+
+            .photo-nav.prev {
+                left: 10px;
+            }
+
+            .photo-nav.next {
+                right: 10px;
+            }
+
+            .quotes-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .quote {
+                min-height: 150px;
+                font-size: 0.95em;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+                text-align: left;
+            }
+
+            .timeline-icon {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2 Anos de Amor <span class="heart">❤️</span></h1>
+            <p class="subtitle">Para minha Princesa</p>
+        </header>
+
+        <div class="section">
+            <h2>📸 Minhas fotos favoritas</h2>
+            <div class="photos-grid">
+                <div class="photo-carousel">
+                    <div class="photo-nav prev" onclick="changePhoto(-1)">❮</div>
+                    <div class="photo-nav next" onclick="changePhoto(1)">❯</div>
+                    
+                    <div class="photo-card active" onclick="changePhoto(1)">
+                        <img src="fotos/foto1.jpeg" alt="Foto 1">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto2.jpeg" alt="Foto 2">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto3.jpeg" alt="Foto 3">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto4.jpeg" alt="Foto 4">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto5.jpeg" alt="Foto 5">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto6.jpeg" alt="Foto 6">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto7.jpeg" alt="Foto 7">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto8.jpeg" alt="Foto 8">
+                    </div>
+                    <div class="photo-card" onclick="changePhoto(1)">
+                        <img src="fotos/foto9.jpeg" alt="Foto 9">
+                    </div>
+
+                    <div class="photo-counter">
+                        <div class="photo-dot active" onclick="goToPhoto(0)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(1)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(2)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(3)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(4)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(5)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(6)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(7)"></div>
+                        <div class="photo-dot" onclick="goToPhoto(8)"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="click-hint">💡 Clique na foto ou use as setas para navegar</p>
+        </div>
+
+        <div class="section">
+            <h2>💭 Dedicado ao meu amor</h2>
+            <div class="quotes">
+                <div class="quotes-container">
+                    <div class="quote">
+                        Eu queria fazer uma troca equivalente, mas eu não quero dar só metade, quero dar toda minha vida para você.
+                    </div>
+                    <div class="quote">
+                        Eu não sou pirata, mas por você eu colocaria fogo na bandeira do governo mundial.
+                    </div>
+                    <div class="quote">
+                        Os momentos perfeitos são quando estamos juntos comendo e rindo feitos tabacudos de coisas tabacudas nossas.
+                    </div>
+                    <div class="quote">
+                        Eu amo tudo em você, mas aquele seu sorriso é o que me faz mais feliz, quando você sorri pra mim, o mundo para. 
+                    </div>
+                    <div class="quote">
+                        Posso não saber o futuro, mas ele sendo com você, eu sei que tudo vai dar certo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📅 Nossa Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">💕</div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">20 de Novembro de 2023</span>
+                        <strong>Nosso primeiro dia</strong><br>
+                        Dia em que você me tornou o homem mais feliz do mundo, e quase caiu também kkkk
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">🎉</div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">20 de Novembro de 2024</span>
+                        <strong>1 ano com meu amor</strong><br>
+                        O ano que estavamos quase ficando malucos com a escola.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">❤️</div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">20 de Novembro de 2025</span>
+                        <strong>2 anos juntos!</strong><br>
+                        E que venham mais anos para eu lhe alegrar, amar, dar carinho e irritar também kkkkk
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Com todo meu amor, hoje e sempre 💕</p>
+        </footer>
+    </div>
+
+    <div class="music-control" onclick="toggleMusic()">
+        <span class="music-icon" id="musicIcon">🎵</span>
+        <span id="musicText">Tocar música</span>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.textContent = '🎵';
+                musicText.textContent = 'Tocar música';
+            } else {
+                music.play();
+                musicIcon.textContent = '⏸️';
+                musicText.textContent = 'Pausar música';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Carrossel de fotos
+        let currentPhoto = 0;
+        const photos = document.querySelectorAll('.photo-card');
+        const dots = document.querySelectorAll('.photo-dot');
+
+        function showPhoto(index) {
+            photos.forEach((photo, i) => {
+                photo.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+            
+            if (index >= photos.length) {
+                currentPhoto = 0;
+            } else if (index < 0) {
+                currentPhoto = photos.length - 1;
+            } else {
+                currentPhoto = index;
+            }
+            
+            photos[currentPhoto].classList.add('active');
+            dots[currentPhoto].classList.add('active');
+        }
+
+        function changePhoto(direction) {
+            showPhoto(currentPhoto + direction);
+        }
+
+        function goToPhoto(index) {
+            showPhoto(index);
+        }
+
+        // Suporte para navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changePhoto(-1);
+            } else if (e.key === 'ArrowRight') {
+                changePhoto(1);
+            }
+        });
+    </script>
+</body>
+</html>
